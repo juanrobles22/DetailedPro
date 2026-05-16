@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>DetailedPro – Party Rentals & Supplies</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FFFDF7;
+  --white:#FFFFFF;
+  --coral:#FF6B6B;
+  --peach:#FFB347;
+  --mint:#A8E6CF;
+  --sky:#87CEEB;
+  --lavender:#DDA0DD;
+  --yellow:#FFE66D;
+  --text:#2D2D2D;
+  --muted:#777;
+  --border:#EEE;
+  --shadow:0 4px 24px rgba(0,0,0,0.08);
+  --radius:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* NAV */
+nav{background:var(--white);padding:0 40px;height:68px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 12px rgba(0,0,0,0.06);position:sticky;top:0;z-index:100;}
+.logo{font-family:'Playfair Display',serif;font-size:26px;font-weight:900;color:var(--coral);letter-spacing:-0.5px;cursor:pointer;}
+.logo span{color:var(--peach);}
+.nav-links{display:flex;gap:8px;align-items:center;}
+.nav-btn{background:none;border:none;padding:8px 18px;border-radius:30px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;color:var(--text);transition:all .2s;}
+.nav-btn:hover{background:var(--cream);}
+.nav-btn.primary{background:var(--coral);color:white;}
+.nav-btn.primary:hover{background:#e55a5a;}
+.cart-btn{position:relative;}
+.cart-count{position:absolute;top:-4px;right:-4px;background:var(--coral);color:white;border-radius:50%;width:18px;height:18px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#FFF9F0 0%,#FFF0F0 50%,#F0F8FF 100%);padding:80px 40px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'🎉';font-size:120px;position:absolute;top:-20px;left:-20px;opacity:.08;transform:rotate(-15deg);}
+.hero::after{content:'🎈';font-size:100px;position:absolute;bottom:-10px;right:-10px;opacity:.08;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,72px);font-weight:900;line-height:1.1;margin-bottom:20px;}
+.hero h1 span{color:var(--coral);}
+.hero p{font-size:18px;color:var(--muted);max-width:560px;margin:0 auto 36px;}
+.hero-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn{padding:14px 32px;border-radius:50px;font-size:16px;font-weight:600;cursor:pointer;border:none;transition:all .25s;font-family:'DM Sans',sans-serif;}
+.btn-primary{background:var(--coral);color:white;}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,107,0.4);}
+.btn-outline{background:white;color:var(--coral);border:2px solid var(--coral);}
+.btn-outline:hover{background:var(--coral);color:white;transform:translateY(-2px);}
+.btn-mint{background:var(--mint);color:var(--text);}
+.btn-mint:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(168,230,207,0.5);}
+
+/* FLOATING EMOJIS */
+.floaties{display:flex;justify-content:center;gap:32px;margin-top:40px;flex-wrap:wrap;}
+.floaty{font-size:40px;animation:float 3s ease-in-out infinite;}
+.floaty:nth-child(2){animation-delay:.5s;}
+.floaty:nth-child(3){animation-delay:1s;}
+.floaty:nth-child(4){animation-delay:1.5s;}
+.floaty:nth-child(5){animation-delay:2s;}
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);}}
+
+/* CATEGORIES SECTION */
+.section{padding:60px 40px;max-width:1200px;margin:0 auto;}
+.section-title{font-family:'Playfair Display',serif;font-size:36px;font-weight:700;margin-bottom:8px;}
+.section-sub{color:var(--muted);margin-bottom:36px;}
+.category-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+.cat-tab{padding:10px 22px;border-radius:30px;border:2px solid var(--border);background:white;cursor:pointer;font-weight:500;transition:all .2s;font-family:'DM Sans',sans-serif;font-size:14px;}
+.cat-tab.active,.cat-tab:hover{border-color:var(--coral);background:var(--coral);color:white;}
+
+/* PRODUCT GRID */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:24px;}
+.product-card{background:white;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .3s;position:relative;}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,0.12);}
+.product-img{width:100%;height:200px;object-fit:cover;background:#f5f5f5;display:flex;align-items:center;justify-content:center;font-size:60px;}
+.product-img img{width:100%;height:100%;object-fit:cover;}
+.product-badge{position:absolute;top:12px;left:12px;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;text-transform:uppercase;}
+.badge-popular{background:var(--coral);color:white;}
+.badge-rent{background:var(--sky);color:var(--text);}
+.badge-out{background:#ccc;color:white;}
+.product-info{padding:18px;}
+.product-name{font-weight:700;font-size:17px;margin-bottom:6px;}
+.product-desc{font-size:13px;color:var(--muted);margin-bottom:12px;}
+.product-price{font-size:22px;font-weight:700;color:var(--coral);}
+.product-price-rent{font-size:13px;color:var(--muted);margin-left:6px;}
+.product-actions{display:flex;gap:8px;margin-top:14px;}
+.product-actions .btn{padding:9px 18px;font-size:13px;border-radius:30px;flex:1;}
+.out-of-stock-overlay{position:absolute;inset:0;background:rgba(255,255,255,0.85);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#999;border-radius:var(--radius);}
+
+/* FEATURES BAR */
+.features-bar{background:white;padding:32px 40px;}
+.features-inner{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;max-width:1000px;margin:0 auto;}
+.feature-item{text-align:center;}
+.feature-icon{font-size:32px;margin-bottom:8px;}
+.feature-title{font-weight:700;font-size:15px;}
+.feature-sub{font-size:13px;color:var(--muted);}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:white;border-radius:var(--radius);padding:36px;max-width:520px;width:100%;max-height:90vh;overflow-y:auto;position:relative;}
+.modal h2{font-family:'Playfair Display',serif;font-size:26px;margin-bottom:20px;}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--muted);}
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-weight:600;font-size:14px;margin-bottom:6px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:2px solid var(--border);border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;transition:border .2s;background:white;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--coral);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+
+/* CART */
+.cart-list{display:flex;flex-direction:column;gap:16px;}
+.cart-item{display:flex;gap:16px;align-items:center;padding:14px;background:var(--cream);border-radius:12px;}
+.cart-item-img{width:60px;height:60px;border-radius:8px;object-fit:cover;background:#eee;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.cart-item-info{flex:1;}
+.cart-item-name{font-weight:700;}
+.cart-item-price{color:var(--coral);font-weight:600;}
+.cart-item-type{font-size:12px;color:var(--muted);}
+.cart-remove{background:none;border:none;color:#ccc;font-size:20px;cursor:pointer;}
+.cart-remove:hover{color:var(--coral);}
+.cart-total{font-size:22px;font-weight:700;text-align:right;margin-top:16px;color:var(--coral);}
+
+/* CHECKOUT STEPS */
+.steps{display:flex;gap:0;margin-bottom:32px;}
+.step{flex:1;text-align:center;position:relative;}
+.step::after{content:'';position:absolute;top:18px;left:50%;width:100%;height:2px;background:var(--border);}
+.step:last-child::after{display:none;}
+.step-dot{width:36px;height:36px;border-radius:50%;background:var(--border);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;margin:0 auto 6px;position:relative;z-index:1;}
+.step.done .step-dot{background:var(--mint);color:var(--text);}
+.step.active .step-dot{background:var(--coral);}
+.step-label{font-size:12px;color:var(--muted);}
+.step.active .step-label{color:var(--coral);font-weight:600;}
+
+/* PAYMENT OPTIONS */
+.payment-options{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.payment-option{padding:16px;border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;transition:all .2s;}
+.payment-option:hover,.payment-option.selected{border-color:var(--coral);background:#FFF5F5;}
+.payment-option .pay-icon{font-size:28px;margin-bottom:6px;}
+.payment-option .pay-name{font-weight:600;font-size:14px;}
+
+/* AGREEMENT */
+.agreement-box{background:var(--cream);border:2px solid var(--border);border-radius:12px;padding:20px;max-height:240px;overflow-y:auto;font-size:14px;line-height:1.7;margin-bottom:18px;}
+.agree-check{display:flex;gap:10px;align-items:flex-start;font-size:14px;cursor:pointer;}
+.agree-check input{margin-top:3px;width:16px;height:16px;cursor:pointer;accent-color:var(--coral);}
+
+/* ADMIN */
+.admin-page{background:var(--cream);min-height:100vh;}
+.admin-header{background:white;padding:20px 40px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--shadow);}
+.admin-header h1{font-family:'Playfair Display',serif;font-size:28px;color:var(--coral);}
+.admin-body{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 72px);}
+.admin-sidebar{background:white;padding:24px 16px;border-right:1px solid var(--border);}
+.admin-nav-item{padding:12px 16px;border-radius:10px;cursor:pointer;font-weight:500;display:flex;align-items:center;gap:10px;transition:all .2s;margin-bottom:4px;}
+.admin-nav-item:hover,.admin-nav-item.active{background:var(--coral);color:white;}
+.admin-main{padding:36px;}
+.admin-section{display:none;}
+.admin-section.active{display:block;}
+.admin-card{background:white;border-radius:var(--radius);padding:28px;box-shadow:var(--shadow);margin-bottom:24px;}
+.admin-card h3{font-size:20px;font-weight:700;margin-bottom:20px;}
+
+/* TABLES */
+.data-table{width:100%;border-collapse:collapse;}
+.data-table th{text-align:left;padding:10px 14px;font-size:13px;color:var(--muted);border-bottom:2px solid var(--border);}
+.data-table td{padding:12px 14px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle;}
+.data-table tr:hover td{background:#FAFAFA;}
+.tag{padding:3px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+.tag-green{background:#D4EDDA;color:#155724;}
+.tag-red{background:#F8D7DA;color:#721C24;}
+.tag-blue{background:#D1ECF1;color:#0C5460;}
+.icon-btn{background:none;border:none;padding:6px;cursor:pointer;border-radius:6px;font-size:16px;transition:all .2s;}
+.icon-btn:hover{background:var(--cream);}
+
+/* TOAST */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--text);color:white;padding:14px 24px;border-radius:12px;font-size:14px;z-index:9999;transform:translateY(80px);opacity:0;transition:all .3s;}
+.toast.show{transform:translateY(0);opacity:1;}
+.toast.success{background:#2D9D78;}
+.toast.error{background:var(--coral);}
+
+/* IMAGE UPLOAD */
+.img-upload-area{border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;}
+.img-upload-area:hover{border-color:var(--coral);background:#FFF5F5;}
+.img-preview{width:100%;max-height:180px;object-fit:cover;border-radius:8px;margin-top:12px;}
+
+/* AUTH PAGE */
+.auth-container{min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FFF9F0,#FFF0F5);}
+.auth-box{background:white;border-radius:24px;padding:48px;max-width:440px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,0.1);}
+.auth-logo{text-align:center;margin-bottom:32px;font-family:'Playfair Display',serif;font-size:32px;font-weight:900;color:var(--coral);}
+
+/* FOOTER */
+footer{background:var(--text);color:white;padding:48px 40px;text-align:center;margin-top:60px;}
+footer .footer-logo{font-family:'Playfair Display',serif;font-size:28px;color:var(--peach);margin-bottom:12px;}
+footer p{color:#aaa;font-size:14px;}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:0 16px;}
+  .section{padding:40px 16px;}
+  .hero{padding:60px 16px;}
+  .admin-body{grid-template-columns:1fr;}
+  .admin-sidebar{display:flex;overflow-x:auto;gap:8px;padding:12px;border-right:none;border-bottom:1px solid var(--border);}
+  .admin-nav-item{white-space:nowrap;}
+  .form-row{grid-template-columns:1fr;}
+  .payment-options{grid-template-columns:1fr;}
+}
+
+/* ACCOUNT MENU */
+.user-avatar{width:36px;height:36px;border-radius:50%;background:var(--coral);color:white;display:flex;align-items:center;justify-content:center;font-weight:700;cursor:pointer;font-size:15px;}
+.dropdown{position:relative;}
+.dropdown-menu{position:absolute;top:100%;right:0;background:white;border-radius:12px;box-shadow:var(--shadow);padding:8px;min-width:180px;display:none;z-index:50;}
+.dropdown:hover .dropdown-menu{display:block;}
+.dropdown-item{padding:10px 14px;border-radius:8px;cursor:pointer;font-size:14px;transition:background .2s;}
+.dropdown-item:hover{background:var(--cream);}
+
+/* ORDERS PAGE */
+.order-card{background:white;border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);margin-bottom:16px;}
+.order-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+.order-id{font-size:13px;color:var(--muted);}
+.order-status{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+.status-pending{background:#FFF3CD;color:#856404;}
+.status-confirmed{background:#D4EDDA;color:#155724;}
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="logo" onclick="showPage('home')">Detailed<span>Pro</span></div>
+  <div class="nav-links">
+    <button class="nav-btn" onclick="showPage('shop')">Shop</button>
+    <button class="nav-btn" onclick="showPage('shop','rent')">Rentals</button>
+    <button class="nav-btn cart-btn" onclick="showPage('cart')">🛒 Cart <span class="cart-count" id="cart-count">0</span></button>
+    <div id="auth-btns">
+      <button class="nav-btn" onclick="showPage('login')">Log In</button>
+      <button class="nav-btn primary" onclick="showPage('signup')">Sign Up</button>
+    </div>
+    <div id="user-menu" style="display:none" class="dropdown">
+      <div class="user-avatar" id="user-avatar">U</div>
+      <div class="dropdown-menu">
+        <div class="dropdown-item" onclick="showPage('orders')">📦 My Orders</div>
+        <div class="dropdown-item" onclick="logout()">🚪 Log Out</div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== HOME PAGE ==================== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <h1>Party Supplies &<br/><span>Rentals Made Easy</span></h1>
+    <p>Everything you need for the perfect party — buy what you keep, rent what you don't.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('shop')">Shop Now 🎉</button>
+      <button class="btn btn-outline" onclick="showPage('shop','rent')">View Rentals</button>
+    </div>
+    <div class="floaties">
+      <span class="floaty">🎈</span>
+      <span class="floaty">🎊</span>
+      <span class="floaty">🪩</span>
+      <span class="floaty">🎂</span>
+      <span class="floaty">🥂</span>
+    </div>
+  </div>
+
+  <div class="features-bar">
+    <div class="features-inner">
+      <div class="feature-item"><div class="feature-icon">🚚</div><div class="feature-title">Fast Delivery</div><div class="feature-sub">Same-day available</div></div>
+      <div class="feature-item"><div class="feature-icon">♻️</div><div class="feature-title">Rent & Return</div><div class="feature-sub">Eco-friendly options</div></div>
+      <div class="feature-item"><div class="feature-icon">💳</div><div class="feature-title">Secure Payment</div><div class="feature-sub">Multiple options</div></div>
+      <div class="feature-item"><div class="feature-icon">⭐</div><div class="feature-title">Top Quality</div><div class="feature-sub">Curated products</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Popular Categories</div>
+    <div class="section-sub">Browse our curated collections</div>
+    <div id="home-categories" class="product-grid"></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">🔥 Trending Right Now</div>
+    <div class="section-sub">Most purchased items this week</div>
+    <div id="trending-grid" class="product-grid"></div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">DetailedPro</div>
+    <p>Your one-stop shop for party rentals & supplies</p>
+    <p style="margin-top:8px;font-size:12px;color:#666;">© 2025 DetailedPro. All rights reserved.</p>
+  </footer>
+</div>
+
+<!-- ==================== SHOP PAGE ==================== -->
+<div class="page" id="page-shop">
+  <div class="section">
+    <div class="section-title">All Products</div>
+    <div class="section-sub">Buy or rent — your choice</div>
+    <div class="category-tabs" id="shop-cat-tabs"></div>
+    <div class="product-grid" id="shop-grid"></div>
+  </div>
+</div>
+
+<!-- ==================== CART PAGE ==================== -->
+<div class="page" id="page-cart">
+  <div class="section" style="max-width:700px;">
+    <div class="section-title">🛒 Your Cart</div>
+    <div id="cart-content"></div>
+    <div id="cart-empty" style="text-align:center;padding:60px 0;display:none;">
+      <div style="font-size:64px;margin-bottom:16px;">🛒</div>
+      <div style="font-size:20px;font-weight:700;margin-bottom:8px;">Your cart is empty</div>
+      <div style="color:var(--muted);margin-bottom:24px;">Add some items to get started!</div>
+      <button class="btn btn-primary" onclick="showPage('shop')">Shop Now</button>
+    </div>
+    <div id="cart-footer" style="display:none;margin-top:24px;">
+      <div class="cart-total" id="cart-total-display"></div>
+      <div style="margin-top:20px;display:flex;gap:12px;justify-content:flex-end;">
+        <button class="btn btn-outline" onclick="showPage('shop')">Continue Shopping</button>
+        <button class="btn btn-primary" onclick="proceedCheckout()">Checkout →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CHECKOUT ==================== -->
+<div class="page" id="page-checkout">
+  <div class="section" style="max-width:640px;">
+    <div class="section-title">Checkout</div>
+    <div class="steps" id="checkout-steps">
+      <div class="step active" id="step1"><div class="step-dot">1</div><div class="step-label">Details</div></div>
+      <div class="step" id="step2"><div class="step-dot">2</div><div class="step-label">Agreement</div></div>
+      <div class="step" id="step3"><div class="step-dot">3</div><div class="step-label">Payment</div></div>
+      <div class="step" id="step4"><div class="step-dot">4</div><div class="step-label">Confirm</div></div>
+    </div>
+
+    <!-- Step 1: Contact Details -->
+    <div id="checkout-step-1" class="admin-card">
+      <h3>Your Details</h3>
+      <div class="form-row">
+        <div class="form-group"><label>Email</label><input id="co-email" type="email" placeholder="you@email.com"/></div>
+        <div class="form-group"><label>Phone</label><input id="co-phone" type="tel" placeholder="+1 555-000-0000"/></div>
+      </div>
+      <div class="form-group"><label>Address</label><input id="co-address" placeholder="123 Main St"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>City</label><input id="co-city" placeholder="City"/></div>
+        <div class="form-group"><label>ZIP</label><input id="co-zip" placeholder="ZIP Code"/></div>
+      </div>
+      <button class="btn btn-primary" onclick="coStep2()" style="width:100%;margin-top:8px;">Continue →</button>
+    </div>
+
+    <!-- Step 2: Agreement -->
+    <div id="checkout-step-2" style="display:none;" class="admin-card">
+      <h3>📋 Terms & Agreement</h3>
+      <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">Please read and accept the following agreement before continuing.</p>
+      <div class="agreement-box" id="agreement-text">Loading agreement...</div>
+      <label class="agree-check">
+        <input type="checkbox" id="agree-checkbox"/> I have read and agree to the terms and conditions above.
+      </label>
+      <div style="display:flex;gap:12px;margin-top:20px;">
+        <button class="btn btn-outline" onclick="coBack(1)" style="flex:1;">← Back</button>
+        <button class="btn btn-primary" onclick="coStep3()" style="flex:2;">Continue →</button>
+      </div>
+    </div>
+
+    <!-- Step 3: Payment -->
+    <div id="checkout-step-3" style="display:none;" class="admin-card">
+      <h3>💳 Payment Method</h3>
+      <div class="payment-options">
+        <div class="payment-option selected" onclick="selectPayment(this,'credit')" data-method="credit"><div class="pay-icon">💳</div><div class="pay-name">Credit/Debit Card</div></div>
+        <div class="payment-option" onclick="selectPayment(this,'paypal')" data-method="paypal"><div class="pay-icon">🅿️</div><div class="pay-name">PayPal</div></div>
+        <div class="payment-option" onclick="selectPayment(this,'venmo')" data-method="venmo"><div class="pay-icon">💜</div><div class="pay-name">Venmo</div></div>
+        <div class="payment-option" onclick="selectPayment(this,'cash')" data-method="cash"><div class="pay-icon">💵</div><div class="pay-name">Cash on Delivery</div></div>
+      </div>
+      <div id="card-fields">
+        <div class="form-group"><label>Card Number</label><input placeholder="1234 5678 9012 3456" maxlength="19"/></div>
+        <div class="form-row">
+          <div class="form-group"><label>Expiry</label><input placeholder="MM/YY"/></div>
+          <div class="form-group"><label>CVV</label><input placeholder="123" maxlength="4"/></div>
+        </div>
+      </div>
+      <div style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:16px;">
+        <div style="display:flex;justify-content:space-between;font-weight:700;font-size:18px;"><span>Total:</span><span id="co-total" style="color:var(--coral);"></span></div>
+      </div>
+      <div style="display:flex;gap:12px;">
+        <button class="btn btn-outline" onclick="coBack(2)" style="flex:1;">← Back</button>
+        <button class="btn btn-primary" onclick="placeOrder()" style="flex:2;">Place Order 🎉</button>
+      </div>
+    </div>
+
+    <!-- Step 4: Confirm -->
+    <div id="checkout-step-4" style="display:none;" class="admin-card" id="checkout-confirm">
+      <div style="text-align:center;padding:20px 0;">
+        <div style="font-size:72px;margin-bottom:16px;">🎉</div>
+        <h3 style="font-size:26px;margin-bottom:12px;">Order Confirmed!</h3>
+        <p style="color:var(--muted);margin-bottom:24px;">Thank you for your order! We'll contact you at your email with details.</p>
+        <div style="background:var(--cream);border-radius:12px;padding:16px;margin-bottom:24px;text-align:left;" id="order-summary-final"></div>
+        <button class="btn btn-primary" onclick="showPage('home')">Back to Home</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== LOGIN PAGE ==================== -->
+<div class="page" id="page-login">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">DetailedPro</div>
+      <h2 style="font-family:'Playfair Display',serif;margin-bottom:24px;text-align:center;">Welcome Back</h2>
+      <div class="form-group"><label>Email</label><input id="login-email" type="email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Password</label><input id="login-pass" type="password" placeholder="••••••••"/></div>
+      <button class="btn btn-primary" onclick="doLogin()" style="width:100%;margin-top:8px;">Log In</button>
+      <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--muted);">Don't have an account? <a onclick="showPage('signup')" style="color:var(--coral);cursor:pointer;font-weight:600;">Sign Up</a></p>
+      <p style="text-align:center;margin-top:10px;font-size:13px;"><a onclick="showPage('admin-login')" style="color:#ccc;cursor:pointer;">Admin Access</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SIGNUP PAGE ==================== -->
+<div class="page" id="page-signup">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo">DetailedPro</div>
+      <h2 style="font-family:'Playfair Display',serif;margin-bottom:24px;text-align:center;">Create Account</h2>
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input id="su-fname" placeholder="John"/></div>
+        <div class="form-group"><label>Last Name</label><input id="su-lname" placeholder="Doe"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input id="su-email" type="email" placeholder="you@email.com"/></div>
+      <div class="form-group"><label>Password</label><input id="su-pass" type="password" placeholder="Min 6 characters"/></div>
+      <button class="btn btn-primary" onclick="doSignup()" style="width:100%;margin-top:8px;">Create Account</button>
+      <p style="text-align:center;margin-top:20px;font-size:14px;color:var(--muted);">Already have an account? <a onclick="showPage('login')" style="color:var(--coral);cursor:pointer;font-weight:600;">Log In</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ORDERS PAGE ==================== -->
+<div class="page" id="page-orders">
+  <div class="section" style="max-width:800px;">
+    <div class="section-title">📦 My Orders</div>
+    <div id="orders-list"></div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN LOGIN ==================== -->
+<div class="page" id="page-admin-login">
+  <div class="auth-container">
+    <div class="auth-box">
+      <div class="auth-logo" style="font-size:24px;">🔐 Admin Access</div>
+      <h2 style="font-family:'Playfair Display',serif;margin-bottom:24px;text-align:center;">Enter Admin Code</h2>
+      <div class="form-group"><label>Admin Code</label><input id="admin-code" type="password" placeholder="••••••" onkeydown="if(event.key==='Enter')checkAdminCode()"/></div>
+      <button class="btn btn-primary" onclick="checkAdminCode()" style="width:100%;">Access Admin Panel</button>
+      <p style="text-align:center;margin-top:16px;"><a onclick="showPage('home')" style="color:var(--muted);cursor:pointer;font-size:14px;">← Back to site</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ADMIN PANEL ==================== -->
+<div class="page" id="page-admin">
+  <div class="admin-page">
+    <div class="admin-header">
+      <h1>⚙️ Admin Panel</h1>
+      <button class="btn btn-outline" onclick="showPage('home')" style="font-size:14px;padding:8px 20px;">← View Site</button>
+    </div>
+    <div class="admin-body">
+      <div class="admin-sidebar">
+        <div class="admin-nav-item active" onclick="adminNav('products')">📦 Products</div>
+        <div class="admin-nav-item" onclick="adminNav('categories')">🗂 Categories</div>
+        <div class="admin-nav-item" onclick="adminNav('orders')">📋 Orders</div>
+        <div class="admin-nav-item" onclick="adminNav('agreement')">📄 Agreement</div>
+        <div class="admin-nav-item" onclick="adminNav('pricing')">📈 Pricing Rules</div>
+      </div>
+      <div class="admin-main">
+
+        <!-- PRODUCTS -->
+        <div class="admin-section active" id="admin-products">
+          <div class="admin-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="margin:0;">Manage Products</h3>
+              <button class="btn btn-primary" onclick="openProductModal()" style="font-size:14px;padding:10px 20px;">+ Add Product</button>
+            </div>
+            <div style="margin-bottom:16px;">
+              <select id="admin-cat-filter" onchange="renderAdminProducts()" style="padding:8px 16px;border:2px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;">
+                <option value="">All Categories</option>
+              </select>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>Image</th><th>Name</th><th>Category</th><th>Price</th><th>Type</th><th>Stock</th><th>Actions</th></tr></thead>
+              <tbody id="admin-products-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CATEGORIES -->
+        <div class="admin-section" id="admin-categories">
+          <div class="admin-card">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+              <h3 style="margin:0;">Manage Categories</h3>
+              <button class="btn btn-primary" onclick="openCatModal()" style="font-size:14px;padding:10px 20px;">+ Add Category</button>
+            </div>
+            <table class="data-table">
+              <thead><tr><th>Icon</th><th>Name</th><th>Products</th><th>Actions</th></tr></thead>
+              <tbody id="admin-cats-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- ORDERS -->
+        <div class="admin-section" id="admin-orders">
+          <div class="admin-card">
+            <h3>All Orders</h3>
+            <div id="admin-orders-list"></div>
+          </div>
+        </div>
+
+        <!-- AGREEMENT -->
+        <div class="admin-section" id="admin-agreement">
+          <div class="admin-card">
+            <h3>Edit Agreement Text</h3>
+            <p style="color:var(--muted);font-size:14px;margin-bottom:16px;">This text will be shown to customers during checkout.</p>
+            <textarea id="agreement-editor" style="width:100%;min-height:300px;padding:16px;border:2px solid var(--border);border-radius:12px;font-size:14px;line-height:1.7;font-family:'DM Sans',sans-serif;" placeholder="Enter your terms and agreement text here..."></textarea>
+            <button class="btn btn-primary" onclick="saveAgreement()" style="margin-top:16px;">Save Agreement</button>
+          </div>
+        </div>
+
+        <!-- PRICING RULES -->
+        <div class="admin-section" id="admin-pricing">
+          <div class="admin-card">
+            <h3>📈 Dynamic Pricing Rules</h3>
+            <p style="color:var(--muted);font-size:14px;margin-bottom:20px;">Products are automatically bumped in price and labeled "Popular" when they exceed the purchase threshold.</p>
+            <div class="form-row" style="max-width:400px;">
+              <div class="form-group">
+                <label>Purchase Threshold</label>
+                <input id="price-threshold" type="number" placeholder="e.g. 5" value="5"/>
+                <small style="color:var(--muted);">Orders needed to trigger bump</small>
+              </div>
+              <div class="form-group">
+                <label>Price Bump %</label>
+                <input id="price-bump" type="number" placeholder="e.g. 5" value="5"/>
+                <small style="color:var(--muted);">Percentage increase</small>
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="savePricingRules()">Save Rules</button>
+          </div>
+          <div class="admin-card">
+            <h3>Product Purchase Stats</h3>
+            <table class="data-table">
+              <thead><tr><th>Product</th><th>Times Purchased</th><th>Status</th><th>Current Price</th></tr></thead>
+              <tbody id="pricing-stats-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== PRODUCT MODAL ==================== -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('product-modal')">✕</button>
+    <h2 id="product-modal-title">Add Product</h2>
+    <input type="hidden" id="edit-product-id"/>
+    <div class="form-group"><label>Product Name</label><input id="p-name" placeholder="e.g. Folding Table"/></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Category</label>
+        <select id="p-cat"><option value="">Select category</option></select>
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="p-type">
+          <option value="buy">Buy Only</option>
+          <option value="rent">Rent Only</option>
+          <option value="both">Buy & Rent</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Buy Price ($)</label><input id="p-price" type="number" placeholder="0.00"/></div>
+      <div class="form-group"><label>Rent Price ($/day)</label><input id="p-rent-price" type="number" placeholder="0.00"/></div>
+    </div>
+    <div class="form-group"><label>Description</label><textarea id="p-desc" style="height:80px;" placeholder="Short description..."></textarea></div>
+    <div class="form-group">
+      <label>Product Image</label>
+      <div class="img-upload-area" onclick="document.getElementById('p-img-file').click()">
+        <div>📸 Click to upload image</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">JPG, PNG, GIF (stored as Base64 in Firebase)</div>
+        <img id="p-img-preview" class="img-preview" style="display:none;"/>
+      </div>
+      <input type="file" id="p-img-file" accept="image/*" style="display:none;" onchange="handleImgUpload(event)"/>
+      <input type="hidden" id="p-img-data"/>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>In Stock</label>
+        <select id="p-stock">
+          <option value="true">✅ In Stock</option>
+          <option value="false">❌ Out of Stock</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Emoji Icon (fallback)</label>
+        <input id="p-emoji" placeholder="🎈"/>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveProduct()" style="width:100%;margin-top:8px;">Save Product</button>
+  </div>
+</div>
+
+<!-- ==================== CATEGORY MODAL ==================== -->
+<div class="modal-overlay" id="cat-modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('cat-modal')">✕</button>
+    <h2 id="cat-modal-title">Add Category</h2>
+    <input type="hidden" id="edit-cat-id"/>
+    <div class="form-group"><label>Category Name</label><input id="c-name" placeholder="e.g. Tables & Seating"/></div>
+    <div class="form-group"><label>Emoji Icon</label><input id="c-emoji" placeholder="🪑"/></div>
+    <button class="btn btn-primary" onclick="saveCategory()" style="width:100%;margin-top:8px;">Save Category</button>
+  </div>
+</div>
+
+<!-- FIREBASE + APP SCRIPT -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, push, remove, update, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAhYl2YP_XzKKjt9XmAzpErHG7f4Efj_z8",
+  authDomain: "detailedpro-e8c93.firebaseapp.com",
+  databaseURL: "https://detailedpro-e8c93-default-rtdb.firebaseio.com",
+  projectId: "detailedpro-e8c93",
+  storageBucket: "detailedpro-e8c93.firebasestorage.app",
+  messagingSenderId: "582448027131",
+  appId: "1:582448027131:web:c71f958233ca5f8b96e75e",
+  measurementId: "G-S7673YWNLQ"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+const auth = getAuth(app);
+
+// ============ GLOBAL STATE ============
+window.cart = [];
+window.currentUser = null;
+window.allProducts = {};
+window.allCategories = {};
+window.pricingRules = { threshold: 5, bump: 5 };
+
+// ============ TOAST ============
+window.showToast = (msg, type='success') => {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  setTimeout(()=>t.className='toast',3000);
+};
+
+// ============ PAGES ============
+window.showPage = (page, filter) => {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page)?.classList.add('active');
+  if(page==='shop'){ renderShop(filter||''); }
+  if(page==='cart'){ renderCart(); }
+  if(page==='home'){ renderHome(); }
+  if(page==='orders'){ renderOrders(); }
+  if(page==='checkout'){ renderCheckout(); }
+  window.scrollTo(0,0);
+};
+
+// ============ AUTH ============
+onAuthStateChanged(auth, user => {
+  window.currentUser = user;
+  const authBtns = document.getElementById('auth-btns');
+  const userMenu = document.getElementById('user-menu');
+  if(user){
+    authBtns.style.display='none';
+    userMenu.style.display='block';
+    const av = document.getElementById('user-avatar');
+    av.textContent = (user.email||'U')[0].toUpperCase();
+  } else {
+    authBtns.style.display='flex';
+    userMenu.style.display='none';
+  }
+});
+
+window.doSignup = async () => {
+  const fname = document.getElementById('su-fname').value.trim();
+  const lname = document.getElementById('su-lname').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pass = document.getElementById('su-pass').value;
+  if(!fname||!lname||!email||!pass){ showToast('Please fill all fields','error'); return; }
+  if(pass.length<6){ showToast('Password must be 6+ characters','error'); return; }
+  try{
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    await set(ref(db,`users/${cred.user.uid}`),{name:`${fname} ${lname}`,email,createdAt:Date.now()});
+    showToast('Account created! Welcome 🎉');
+    showPage('home');
+  }catch(e){ showToast(e.message,'error'); }
+};
+
+window.doLogin = async () => {
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-pass').value;
+  if(!email||!pass){ showToast('Please fill all fields','error'); return; }
+  try{
+    await signInWithEmailAndPassword(auth, email, pass);
+    showToast('Welcome back! 👋');
+    showPage('home');
+  }catch(e){ showToast('Invalid credentials','error'); }
+};
+
+window.logout = async () => {
+  await signOut(auth);
+  showToast('Logged out');
+  showPage('home');
+};
+
+// ============ ADMIN ============
+window.checkAdminCode = () => {
+  const code = document.getElementById('admin-code').value;
+  if(code==='627456'){
+    showPage('admin');
+    loadAdminData();
+    document.getElementById('admin-code').value='';
+  } else {
+    showToast('Invalid code','error');
+  }
+};
+
+window.adminNav = (section) => {
+  document.querySelectorAll('.admin-nav-item').forEach(n=>n.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('.admin-section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('admin-'+section)?.classList.add('active');
+  if(section==='products') renderAdminProducts();
+  if(section==='categories') renderAdminCategories();
+  if(section==='orders') renderAdminOrders();
+  if(section==='agreement') loadAgreementEditor();
+  if(section==='pricing') renderPricingStats();
+};
+
+// ============ LOAD DATA ============
+const loadData = () => {
+  onValue(ref(db,'products'), snap => {
+    window.allProducts = snap.val()||{};
+    renderHome();
+    renderShopIfActive();
+    updateDynamicPricing();
+  });
+  onValue(ref(db,'categories'), snap => {
+    window.allCategories = snap.val()||{};
+    renderHome();
+    renderShopIfActive();
+  });
+  onValue(ref(db,'settings/pricingRules'), snap => {
+    if(snap.val()) window.pricingRules = snap.val();
+  });
+};
+
+const renderShopIfActive = () => {
+  if(document.getElementById('page-shop').classList.contains('active')) renderShop();
+};
+
+// ============ DYNAMIC PRICING ============
+const updateDynamicPricing = async () => {
+  const ordersSnap = await get(ref(db,'orders'));
+  const orders = ordersSnap.val()||{};
+  const purchaseCounts = {};
+  Object.values(orders).forEach(order => {
+    (order.items||[]).forEach(item => {
+      purchaseCounts[item.id] = (purchaseCounts[item.id]||0) + 1;
+    });
+  });
+
+  const threshold = window.pricingRules.threshold||5;
+  const bump = window.pricingRules.bump||5;
+  const products = window.allProducts;
+  for(const [id,prod] of Object.entries(products)){
+    const count = purchaseCounts[id]||0;
+    const shouldBePopular = count >= threshold;
+    if(shouldBePopular !== prod.popular){
+      const updates = { popular: shouldBePopular };
+      if(shouldBePopular && !prod.priceBumped && prod.price){
+        updates.price = Math.round(prod.price*(1+bump/100)*100)/100;
+        updates.priceBumped = true;
+      }
+      await update(ref(db,`products/${id}`), updates);
+    }
+  }
+};
+
+// ============ RENDER HOME ============
+window.renderHome = () => {
+  const catGrid = document.getElementById('home-categories');
+  const trendGrid = document.getElementById('trending-grid');
+  if(!catGrid||!trendGrid) return;
+
+  const cats = Object.entries(window.allCategories);
+  catGrid.innerHTML = cats.length === 0
+    ? '<p style="color:var(--muted);">No categories yet. Add some in Admin!</p>'
+    : cats.map(([id,c])=>`
+      <div class="product-card" style="cursor:pointer;" onclick="showPage('shop','${id}')">
+        <div class="product-img" style="height:140px;justify-content:center;align-items:center;background:linear-gradient(135deg,#FFF5F5,#FFF0F8);font-size:64px;">${c.emoji||'📦'}</div>
+        <div class="product-info"><div class="product-name">${c.name}</div><div class="product-desc" style="color:var(--coral);font-weight:600;">${Object.values(window.allProducts).filter(p=>p.categoryId===id).length} items</div></div>
+      </div>`).join('');
+
+  const popular = Object.entries(window.allProducts).filter(([,p])=>p.popular&&p.inStock!==false).slice(0,4);
+  trendGrid.innerHTML = popular.length===0
+    ? '<p style="color:var(--muted);">Purchase items to see trending products!</p>'
+    : popular.map(([id,p])=>productCard(id,p)).join('');
+};
+
+// ============ PRODUCT CARD ============
+const productCard = (id, p) => {
+  const imgHTML = p.imageData
+    ? `<img src="${p.imageData}" style="width:100%;height:100%;object-fit:cover;" alt="${p.name}"/>`
+    : `<span style="font-size:60px;">${p.emoji||'📦'}</span>`;
+
+  const outOfStock = p.inStock===false;
+  return `
+    <div class="product-card">
+      <div class="product-img">${imgHTML}</div>
+      ${p.popular?'<span class="product-badge badge-popular">🔥 Popular</span>':''}
+      ${(p.type==='rent'||p.type==='both')&&!p.popular?'<span class="product-badge badge-rent">For Rent</span>':''}
+      ${outOfStock?'<div class="out-of-stock-overlay">Out of Stock</div>':''}
+      <div class="product-info">
+        <div class="product-name">${p.name}</div>
+        <div class="product-desc">${p.description||''}</div>
+        <div>
+          ${p.type!=='rent'&&p.price?`<span class="product-price">$${parseFloat(p.price).toFixed(2)}</span>`:''}
+          ${p.type==='both'&&p.rentPrice?`<span class="product-price-rent">/ $${parseFloat(p.rentPrice).toFixed(2)}/day rent</span>`:''}
+          ${p.type==='rent'&&p.rentPrice?`<span class="product-price">$${parseFloat(p.rentPrice).toFixed(2)}<span class="product-price-rent">/day</span></span>`:''}
+        </div>
+        <div class="product-actions">
+          ${(!outOfStock&&p.type!=='rent')?`<button class="btn btn-primary" onclick="addToCart('${id}','buy')">Add to Cart</button>`:''}
+          ${(!outOfStock&&(p.type==='rent'||p.type==='both'))?`<button class="btn btn-mint" onclick="addToCart('${id}','rent')">Rent</button>`:''}
+        </div>
+      </div>
+    </div>`;
+};
+
+// ============ SHOP PAGE ============
+window.renderShop = (catFilter) => {
+  const tabs = document.getElementById('shop-cat-tabs');
+  const grid = document.getElementById('shop-grid');
+  if(!tabs||!grid) return;
+
+  const cats = Object.entries(window.allCategories);
+  tabs.innerHTML = `<div class="cat-tab ${!catFilter?'active':''}" onclick="renderShop('')">All</div>`
+    + cats.map(([id,c])=>`<div class="cat-tab ${catFilter===id?'active':''}" onclick="renderShop('${id}')">${c.emoji||''} ${c.name}</div>`).join('');
+
+  let products = Object.entries(window.allProducts);
+  if(catFilter==='rent') products = products.filter(([,p])=>p.type==='rent'||p.type==='both');
+  else if(catFilter) products = products.filter(([,p])=>p.categoryId===catFilter);
+
+  grid.innerHTML = products.length===0
+    ? '<p style="color:var(--muted);grid-column:1/-1;">No products found.</p>'
+    : products.map(([id,p])=>productCard(id,p)).join('');
+};
+
+// ============ CART ============
+window.addToCart = (productId, mode) => {
+  const p = window.allProducts[productId];
+  if(!p) return;
+  const existing = window.cart.find(i=>i.id===productId&&i.mode===mode);
+  if(existing){ existing.qty=(existing.qty||1)+1; }
+  else {
+    window.cart.push({
+      id: productId,
+      name: p.name,
+      price: mode==='rent'?parseFloat(p.rentPrice||0):parseFloat(p.price||0),
+      mode,
+      emoji: p.emoji||'📦',
+      imageData: p.imageData||null,
+      qty: 1
+    });
+  }
+  updateCartCount();
+  showToast(`${p.name} added to cart! 🛒`);
+};
+
+window.updateCartCount = () => {
+  const total = window.cart.reduce((s,i)=>s+(i.qty||1),0);
+  document.getElementById('cart-count').textContent = total;
+};
+
+window.renderCart = () => {
+  const content = document.getElementById('cart-content');
+  const empty = document.getElementById('cart-empty');
+  const footer = document.getElementById('cart-footer');
+  if(!window.cart.length){ content.innerHTML=''; empty.style.display='block'; footer.style.display='none'; return; }
+  empty.style.display='none'; footer.style.display='block';
+  const total = window.cart.reduce((s,i)=>s+(i.price*(i.qty||1)),0);
+  content.innerHTML = `<div class="cart-list">${window.cart.map((item,idx)=>`
+    <div class="cart-item">
+      <div class="cart-item-img">${item.imageData?`<img src="${item.imageData}" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"/>`:(item.emoji||'📦')}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-type">${item.mode==='rent'?'Rental (per day)':'Purchase'} × ${item.qty||1}</div>
+        <div class="cart-item-price">$${(item.price*(item.qty||1)).toFixed(2)}</div>
+      </div>
+      <button class="cart-remove" onclick="removeFromCart(${idx})">✕</button>
+    </div>`).join('')}</div>`;
+  document.getElementById('cart-total-display').textContent = `Total: $${total.toFixed(2)}`;
+};
+
+window.removeFromCart = (idx) => {
+  window.cart.splice(idx,1);
+  updateCartCount();
+  renderCart();
+};
+
+window.proceedCheckout = () => {
+  if(!window.currentUser){ showToast('Please log in to checkout','error'); showPage('login'); return; }
+  showPage('checkout');
+};
+
+// ============ CHECKOUT ============
+window.renderCheckout = () => {
+  const total = window.cart.reduce((s,i)=>s+(i.price*(i.qty||1)),0);
+  document.getElementById('co-total').textContent = `$${total.toFixed(2)}`;
+  setCheckoutStep(1);
+  loadAgreementText();
+};
+
+let currentPaymentMethod = 'credit';
+window.selectPayment = (el, method) => {
+  document.querySelectorAll('.payment-option').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  currentPaymentMethod = method;
+  document.getElementById('card-fields').style.display = method==='credit'?'block':'none';
+};
+
+window.coStep2 = () => {
+  const email=document.getElementById('co-email').value;
+  const phone=document.getElementById('co-phone').value;
+  const addr=document.getElementById('co-address').value;
+  if(!email||!phone||!addr){ showToast('Please fill all required fields','error'); return; }
+  setCheckoutStep(2);
+};
+
+window.coStep3 = () => {
+  if(!document.getElementById('agree-checkbox').checked){ showToast('Please accept the agreement','error'); return; }
+  setCheckoutStep(3);
+};
+
+window.coBack = (step) => setCheckoutStep(step);
+
+const setCheckoutStep = (n) => {
+  [1,2,3,4].forEach(i=>{
+    document.getElementById(`checkout-step-${i}`).style.display = i===n?'block':'none';
+    const s = document.getElementById(`step${i}`);
+    s.className='step';
+    if(i<n) s.classList.add('done');
+    if(i===n) s.classList.add('active');
+  });
+};
+
+window.placeOrder = async () => {
+  if(!window.currentUser){ showToast('Please log in','error'); return; }
+  const orderId = push(ref(db,'orders')).key;
+  const total = window.cart.reduce((s,i)=>s+(i.price*(i.qty||1)),0);
+  const orderData = {
+    userId: window.currentUser.uid,
+    email: document.getElementById('co-email').value,
+    phone: document.getElementById('co-phone').value,
+    address: `${document.getElementById('co-address').value}, ${document.getElementById('co-city').value} ${document.getElementById('co-zip').value}`,
+    items: window.cart.map(i=>({id:i.id,name:i.name,price:i.price,mode:i.mode,qty:i.qty||1})),
+    total: total.toFixed(2),
+    paymentMethod: currentPaymentMethod,
+    status: 'confirmed',
+    createdAt: Date.now()
+  };
+  try{
+    await set(ref(db,`orders/${orderId}`), orderData);
+    // Track purchases for dynamic pricing
+    for(const item of window.cart){
+      const countRef = ref(db,`purchaseCounts/${item.id}`);
+      const snap = await get(countRef);
+      await set(countRef,(snap.val()||0)+(item.qty||1));
+    }
+    document.getElementById('order-summary-final').innerHTML = `
+      <div style="font-weight:700;margin-bottom:8px;">Order #${orderId.slice(-6).toUpperCase()}</div>
+      ${orderData.items.map(i=>`<div style="display:flex;justify-content:space-between;margin:4px 0;"><span>${i.name} ×${i.qty}</span><span>$${(i.price*i.qty).toFixed(2)}</span></div>`).join('')}
+      <div style="border-top:1px solid var(--border);margin-top:10px;padding-top:10px;font-weight:700;display:flex;justify-content:space-between;"><span>Total</span><span style="color:var(--coral);">$${orderData.total}</span></div>`;
+    window.cart = [];
+    updateCartCount();
+    setCheckoutStep(4);
+    await updateDynamicPricing();
+  }catch(e){ showToast('Error placing order: '+e.message,'error'); }
+};
+
+// ============ ORDERS PAGE ============
+window.renderOrders = async () => {
+  if(!window.currentUser){ showPage('login'); return; }
+  const list = document.getElementById('orders-list');
+  list.innerHTML='<p style="color:var(--muted);">Loading...</p>';
+  const snap = await get(ref(db,'orders'));
+  const orders = snap.val()||{};
+  const mine = Object.entries(orders).filter(([,o])=>o.userId===window.currentUser.uid);
+  if(!mine.length){ list.innerHTML='<p style="color:var(--muted);text-align:center;padding:40px;">No orders yet!</p>'; return; }
+  list.innerHTML = mine.reverse().map(([id,o])=>`
+    <div class="order-card">
+      <div class="order-header">
+        <div><div style="font-weight:700;">Order #${id.slice(-6).toUpperCase()}</div><div class="order-id">${new Date(o.createdAt).toLocaleDateString()}</div></div>
+        <span class="order-status status-${o.status||'pending'}">${(o.status||'pending').toUpperCase()}</span>
+      </div>
+      ${(o.items||[]).map(i=>`<div style="display:flex;justify-content:space-between;padding:4px 0;font-size:14px;"><span>${i.name} ×${i.qty}</span><span>$${(i.price*i.qty).toFixed(2)}</span></div>`).join('')}
+      <div style="font-weight:700;text-align:right;margin-top:10px;color:var(--coral);">Total: $${o.total}</div>
+    </div>`).join('');
+};
+
+// ============ AGREEMENT ============
+window.loadAgreementText = async () => {
+  const snap = await get(ref(db,'settings/agreement'));
+  document.getElementById('agreement-text').textContent = snap.val()||'No agreement text set yet. Please contact the admin.';
+};
+
+window.loadAgreementEditor = async () => {
+  const snap = await get(ref(db,'settings/agreement'));
+  document.getElementById('agreement-editor').value = snap.val()||'';
+};
+
+window.saveAgreement = async () => {
+  const text = document.getElementById('agreement-editor').value;
+  await set(ref(db,'settings/agreement'), text);
+  showToast('Agreement saved!');
+};
+
+// ============ ADMIN LOAD DATA ============
+window.loadAdminData = () => {
+  get(ref(db,'settings/pricingRules')).then(snap=>{
+    if(snap.val()){
+      window.pricingRules = snap.val();
+      document.getElementById('price-threshold').value = snap.val().threshold||5;
+      document.getElementById('price-bump').value = snap.val().bump||5;
+    }
+  });
+  renderAdminProducts();
+  renderAdminCategories();
+};
+
+// ============ ADMIN PRODUCTS ============
+window.renderAdminProducts = async () => {
+  const tbody = document.getElementById('admin-products-tbody');
+  if(!tbody) return;
+  const catFilter = document.getElementById('admin-cat-filter')?.value;
+  let products = Object.entries(window.allProducts);
+  if(catFilter) products = products.filter(([,p])=>p.categoryId===catFilter);
+
+  // Update category dropdown
+  const sel = document.getElementById('admin-cat-filter');
+  if(sel){
+    const current = sel.value;
+    sel.innerHTML='<option value="">All Categories</option>'+Object.entries(window.allCategories).map(([id,c])=>`<option value="${id}" ${current===id?'selected':''}>${c.name}</option>`).join('');
+  }
+
+  tbody.innerHTML = products.map(([id,p])=>`
+    <tr>
+      <td><div style="width:48px;height:48px;border-radius:8px;overflow:hidden;background:#f5f5f5;display:flex;align-items:center;justify-content:center;">
+        ${p.imageData?`<img src="${p.imageData}" style="width:100%;height:100%;object-fit:cover;"/>`:p.emoji||'📦'}</div></td>
+      <td><strong>${p.name}</strong></td>
+      <td>${window.allCategories[p.categoryId]?.name||'—'}</td>
+      <td>${p.type!=='rent'?`$${parseFloat(p.price||0).toFixed(2)}`:''}${p.type==='both'?` / `:''} ${(p.type==='rent'||p.type==='both')?`$${parseFloat(p.rentPrice||0).toFixed(2)}/day`:''}</td>
+      <td><span class="tag tag-blue">${p.type}</span></td>
+      <td><span class="tag ${p.inStock===false?'tag-red':'tag-green'}">${p.inStock===false?'Out':'In Stock'}</span></td>
+      <td>
+        <button class="icon-btn" title="Edit" onclick="openProductModal('${id}')">✏️</button>
+        <button class="icon-btn" title="Delete" onclick="deleteProduct('${id}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+};
+
+window.openProductModal = async (id) => {
+  document.getElementById('product-modal-title').textContent = id?'Edit Product':'Add Product';
+  document.getElementById('edit-product-id').value = id||'';
+  document.getElementById('p-img-preview').style.display='none';
+  document.getElementById('p-img-data').value='';
+
+  // Populate category dropdown
+  const catSel = document.getElementById('p-cat');
+  catSel.innerHTML='<option value="">Select category</option>'+Object.entries(window.allCategories).map(([cid,c])=>`<option value="${cid}">${c.name}</option>`).join('');
+
+  if(id){
+    const p = window.allProducts[id];
+    document.getElementById('p-name').value=p.name||'';
+    document.getElementById('p-cat').value=p.categoryId||'';
+    document.getElementById('p-type').value=p.type||'buy';
+    document.getElementById('p-price').value=p.price||'';
+    document.getElementById('p-rent-price').value=p.rentPrice||'';
+    document.getElementById('p-desc').value=p.description||'';
+    document.getElementById('p-emoji').value=p.emoji||'';
+    document.getElementById('p-stock').value=p.inStock===false?'false':'true';
+    if(p.imageData){
+      document.getElementById('p-img-preview').src=p.imageData;
+      document.getElementById('p-img-preview').style.display='block';
+      document.getElementById('p-img-data').value=p.imageData;
+    }
+  } else {
+    ['p-name','p-price','p-rent-price','p-desc','p-emoji'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('p-stock').value='true';
+    document.getElementById('p-type').value='buy';
+  }
+  document.getElementById('product-modal').classList.add('open');
+};
+
+window.handleImgUpload = (event) => {
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const data = e.target.result;
+    document.getElementById('p-img-data').value = data;
+    document.getElementById('p-img-preview').src = data;
+    document.getElementById('p-img-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+};
+
+window.saveProduct = async () => {
+  const id = document.getElementById('edit-product-id').value;
+  const name = document.getElementById('p-name').value.trim();
+  if(!name){ showToast('Product name required','error'); return; }
+  const data = {
+    name,
+    categoryId: document.getElementById('p-cat').value,
+    type: document.getElementById('p-type').value,
+    price: parseFloat(document.getElementById('p-price').value)||0,
+    rentPrice: parseFloat(document.getElementById('p-rent-price').value)||0,
+    description: document.getElementById('p-desc').value.trim(),
+    emoji: document.getElementById('p-emoji').value.trim()||'📦',
+    inStock: document.getElementById('p-stock').value!=='false',
+    updatedAt: Date.now()
+  };
+  const imgData = document.getElementById('p-img-data').value;
+  if(imgData) data.imageData = imgData;
+  else if(id && window.allProducts[id]?.imageData) data.imageData = window.allProducts[id].imageData;
+
+  if(id){
+    await update(ref(db,`products/${id}`), data);
+    showToast('Product updated!');
+  } else {
+    data.createdAt = Date.now();
+    data.popular = false;
+    data.priceBumped = false;
+    await push(ref(db,'products'), data);
+    showToast('Product added!');
+  }
+  closeModal('product-modal');
+  renderAdminProducts();
+};
+
+window.deleteProduct = async (id) => {
+  if(!confirm('Delete this product?')) return;
+  await remove(ref(db,`products/${id}`));
+  showToast('Product deleted');
+  renderAdminProducts();
+};
+
+// ============ ADMIN CATEGORIES ============
+window.renderAdminCategories = () => {
+  const tbody = document.getElementById('admin-cats-tbody');
+  if(!tbody) return;
+  const cats = Object.entries(window.allCategories);
+  tbody.innerHTML = cats.map(([id,c])=>`
+    <tr>
+      <td style="font-size:24px;">${c.emoji||'📦'}</td>
+      <td><strong>${c.name}</strong></td>
+      <td>${Object.values(window.allProducts).filter(p=>p.categoryId===id).length}</td>
+      <td>
+        <button class="icon-btn" onclick="openCatModal('${id}')">✏️</button>
+        <button class="icon-btn" onclick="deleteCategory('${id}')">🗑️</button>
+      </td>
+    </tr>`).join('');
+};
+
+window.openCatModal = (id) => {
+  document.getElementById('cat-modal-title').textContent = id?'Edit Category':'Add Category';
+  document.getElementById('edit-cat-id').value = id||'';
+  if(id){
+    const c = window.allCategories[id];
+    document.getElementById('c-name').value=c.name||'';
+    document.getElementById('c-emoji').value=c.emoji||'';
+  } else {
+    document.getElementById('c-name').value='';
+    document.getElementById('c-emoji').value='';
+  }
+  document.getElementById('cat-modal').classList.add('open');
+};
+
+window.saveCategory = async () => {
+  const id = document.getElementById('edit-cat-id').value;
+  const name = document.getElementById('c-name').value.trim();
+  if(!name){ showToast('Category name required','error'); return; }
+  const data = { name, emoji: document.getElementById('c-emoji').value.trim()||'📦' };
+  if(id){
+    await update(ref(db,`categories/${id}`),data);
+    showToast('Category updated!');
+  } else {
+    await push(ref(db,'categories'),data);
+    showToast('Category added!');
+  }
+  closeModal('cat-modal');
+  renderAdminCategories();
+};
+
+window.deleteCategory = async (id) => {
+  if(!confirm('Delete this category?')) return;
+  await remove(ref(db,`categories/${id}`));
+  showToast('Category deleted');
+  renderAdminCategories();
+};
+
+// ============ ADMIN ORDERS ============
+window.renderAdminOrders = async () => {
+  const list = document.getElementById('admin-orders-list');
+  if(!list) return;
+  const snap = await get(ref(db,'orders'));
+  const orders = snap.val()||{};
+  const entries = Object.entries(orders).reverse();
+  if(!entries.length){ list.innerHTML='<p style="color:var(--muted);">No orders yet.</p>'; return; }
+  list.innerHTML = entries.map(([id,o])=>`
+    <div class="order-card">
+      <div class="order-header">
+        <div>
+          <div style="font-weight:700;">Order #${id.slice(-6).toUpperCase()}</div>
+          <div class="order-id">${new Date(o.createdAt).toLocaleString()} • ${o.email}</div>
+          <div class="order-id">${o.address}</div>
+        </div>
+        <div style="text-align:right;">
+          <span class="order-status status-confirmed">CONFIRMED</span>
+          <div style="margin-top:8px;font-weight:700;color:var(--coral);">$${o.total}</div>
+        </div>
+      </div>
+      ${(o.items||[]).map(i=>`<div style="font-size:13px;padding:2px 0;">${i.name} ×${i.qty} (${i.mode}) — $${(i.price*i.qty).toFixed(2)}</div>`).join('')}
+    </div>`).join('');
+};
+
+// ============ PRICING RULES ============
+window.savePricingRules = async () => {
+  const rules = {
+    threshold: parseInt(document.getElementById('price-threshold').value)||5,
+    bump: parseFloat(document.getElementById('price-bump').value)||5
+  };
+  await set(ref(db,'settings/pricingRules'), rules);
+  window.pricingRules = rules;
+  showToast('Pricing rules saved!');
+  await updateDynamicPricing();
+  renderPricingStats();
+};
+
+window.renderPricingStats = async () => {
+  const tbody = document.getElementById('pricing-stats-tbody');
+  if(!tbody) return;
+  const snap = await get(ref(db,'purchaseCounts'));
+  const counts = snap.val()||{};
+  const threshold = window.pricingRules.threshold||5;
+  const products = Object.entries(window.allProducts);
+  tbody.innerHTML = products.map(([id,p])=>`
+    <tr>
+      <td><strong>${p.name}</strong></td>
+      <td>${counts[id]||0}</td>
+      <td>${p.popular?'<span class="tag tag-red">🔥 Popular</span>':'<span class="tag tag-green">Normal</span>'}</td>
+      <td>$${parseFloat(p.price||0).toFixed(2)}</td>
+    </tr>`).join('');
+};
+
+// ============ MODALS ============
+window.closeModal = (id) => document.getElementById(id).classList.remove('open');
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// ============ INIT ============
+loadData();
+renderHome();
+</script>
+</body>
+</html>
